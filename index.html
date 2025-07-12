@@ -1,0 +1,1371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Golf Trip Planning Spreadsheet</title>
+    <style type="text/css">
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c5530;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #2c5530;
+            margin-bottom: 20px;
+        }
+        .tab {
+            padding: 10px 20px;
+            background: #f0f0f0;
+            border: none;
+            cursor: pointer;
+            margin-right: 2px;
+            font-weight: bold;
+        }
+        .tab.active {
+            background: #2c5530;
+            color: white;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            font-size: 12px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th {
+            background-color: #2c5530;
+            color: white;
+            font-weight: bold;
+            position: sticky;
+            top: 0;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .location-header {
+            background-color: #4a7c59 !important;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+        }
+        .price {
+            font-weight: bold;
+            color: #d9534f;
+        }
+        .course-link {
+            color: #2c5530;
+            text-decoration: none;
+        }
+        .course-link:hover {
+            text-decoration: underline;
+        }
+        .summary-card {
+            background: #e8f5e8;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .export-btn {
+            background: #2c5530;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        .export-btn:hover {
+            background: #1a3d1f;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .grid-3col {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .card {
+            background: #f0f9ff;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .card-yellow {
+            background: #fffacd;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .card-green {
+            background: #f0fdf4;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .card-blue {
+            background: #eff6ff;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .card-red {
+            background: #fef2f2;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .card-gray {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .gradient-green {
+            background: linear-gradient(135deg, #2c5530, #4a7c59);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .gradient-blue {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .gradient-emerald {
+            background: linear-gradient(135deg, #065f46, #10b981);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .gradient-orange {
+            background: linear-gradient(135deg, #7c2d12, #ea580c);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .gradient-red {
+            background: linear-gradient(135deg, #7c2d12, #dc2626);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .gradient-navy {
+            background: linear-gradient(135deg, #0c4a6e, #0284c7);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .highlight-yellow {
+            background-color: #fffbeb;
+        }
+        .highlight-blue {
+            background-color: #e0f2fe;
+        }
+        .highlight-green {
+            background-color: #f0fdf4;
+        }
+        .final-framework {
+            margin-top: 20px;
+            padding: 15px;
+            background: linear-gradient(135deg, #2c5530, #4a7c59);
+            color: white;
+            border-radius: 8px;
+        }
+        .framework-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .next-steps {
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏌️ Guy's Golf Trip - Affordable Summer Destinations</h1>
+        
+        <div class="summary-card">
+            <h3>🏆 Expert Recommendations</h3>
+            <p><strong>🏅 Best Value:</strong> Birmingham, Alabama ($350-450 per person)</p>
+            <p><strong>🌟 Best Overall:</strong> Traverse City, Michigan ($580-850 per person)</p>
+            <p><strong>⛰️ Best Views:</strong> Denver, Colorado (mountain golf + craft beer)</p>
+            <p><strong>🏛️ Best History:</strong> Williamsburg, Virginia (colonial charm)</p>
+            <p><strong>🦞 Best Coastal:</strong> Maine (ocean views + lobster)</p>
+            <p><strong>🏞️ Best Lakes:</strong> Minnesota (Giants Ridge + Brainerd)</p>
+        </div>
+
+        <div class="tabs">
+            <button type="button" class="tab active" onclick="showTab('overview')">Overview</button>
+            <button type="button" class="tab" onclick="showTab('recommendations')">Expert Picks</button>
+            <button type="button" class="tab" onclick="showTab('alabama')">Alabama 🏆</button>
+            <button type="button" class="tab" onclick="showTab('michigan')">Michigan 🌟</button>
+            <button type="button" class="tab" onclick="showTab('minnesota')">Minnesota 🏞️</button>
+            <button type="button" class="tab" onclick="showTab('colorado')">Colorado ⛰️</button>
+            <button type="button" class="tab" onclick="showTab('virginia')">Virginia 🏛️</button>
+            <button type="button" class="tab" onclick="showTab('maine')">Maine 🦞</button>
+        </div>
+
+        <div id="overview" class="tab-content active">
+            <h2>Regional Overview</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Region</th>
+                        <th>Base City</th>
+                        <th>Top Courses Count</th>
+                        <th>Price Range</th>
+                        <th>Key Features</th>
+                        <th>Best For</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Birmingham, Alabama 🏆</strong></td>
+                        <td>Birmingham</td>
+                        <td>6 courses</td>
+                        <td>$55-85 + cart</td>
+                        <td>Robert Trent Jones Golf Trail, best value</td>
+                        <td>Budget-conscious groups</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Traverse City, Michigan 🌟</strong></td>
+                        <td>Traverse City</td>
+                        <td>7 courses</td>
+                        <td>$75-275</td>
+                        <td>Grand Traverse Resort, Lake Michigan</td>
+                        <td>Complete experience</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Minnesota 🏞️</strong></td>
+                        <td>Duluth/Brainerd</td>
+                        <td>5 courses</td>
+                        <td>$130-180</td>
+                        <td>Giants Ridge, lake country</td>
+                        <td>Lake lovers</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Denver, Colorado ⛰️</strong></td>
+                        <td>Denver</td>
+                        <td>6 courses</td>
+                        <td>$89-215</td>
+                        <td>Mountain views, 300+ sunny days</td>
+                        <td>Scenic diversity + craft beer</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Williamsburg, Virginia 🏛️</strong></td>
+                        <td>Williamsburg</td>
+                        <td>6 courses</td>
+                        <td>$50-200</td>
+                        <td>Colonial history, family-friendly</td>
+                        <td>History buffs</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Maine 🦞</strong></td>
+                        <td>Portland/Kennebunkport</td>
+                        <td>6 courses</td>
+                        <td>$120-150</td>
+                        <td>Coastal views, lobster dining</td>
+                        <td>Coastal premium experience</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="recommendations" class="tab-content">
+            <h2>🏆 Expert Recommendations &amp; Complete Analysis</h2>
+            
+            <div class="gradient-green">
+                <h3>🥇 Top Pick: Birmingham, Alabama - The Value Champion</h3>
+                <p><strong>Total Cost:</strong> $350-450 per person | <strong>Best For:</strong> Maximum golf value</p>
+                <p><strong>Why Birmingham wins:</strong> Robert Trent Jones Golf Trail offers championship golf at unbeatable prices. Ross Bridge (8,191 yards!) costs just $65-85 including cart. Renaissance Resort provides luxury base with golf packages.</p>
+                <p><strong>Flight costs:</strong> Atlanta ($150-200), Dallas/Chicago ($200-250) | <strong>Airport:</strong> 25 min to courses</p>
+                <p><strong>Dining:</strong> World-class BBQ scene, On Tap Sports Café (84 taps), craft breweries</p>
+            </div>
+
+            <div class="summary-card">
+                <h3>🌟 Runner-up: Traverse City, Michigan - Complete Experience</h3>
+                <p><strong>Total Cost:</strong> $580-850 per person | <strong>Best For:</strong> All-around luxury</p>
+                <p><strong>Why choose:</strong> Grand Traverse Resort offers 3 on-site championship courses, Lake Michigan views, self-contained luxury. Resort guests save $15-20 on outside golf.</p>
+                <p><strong>Unique features:</strong> Arcadia Bluffs ($90-220), Cherry Festival timing, 40+ wineries nearby</p>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Destination</th>
+                        <th>Total Cost Range</th>
+                        <th>Best Months</th>
+                        <th>Airport</th>
+                        <th>Signature Experience</th>
+                        <th>Group Size Ideal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="highlight-yellow">
+                        <td><strong>🏆 Birmingham, AL</strong></td>
+                        <td><span class="price">$350-450</span></td>
+                        <td>Mar-May, Sep-Nov</td>
+                        <td>BHM (25 min)</td>
+                        <td>RTJ Trail + Renaissance Resort</td>
+                        <td>4-16 players</td>
+                    </tr>
+                    <tr>
+                        <td><strong>🌟 Traverse City, MI</strong></td>
+                        <td><span class="price">$580-850</span></td>
+                        <td>May, Sep (best value)</td>
+                        <td>TVC (15 min)</td>
+                        <td>Grand Traverse Resort package</td>
+                        <td>4-12 players</td>
+                    </tr>
+                    <tr>
+                        <td><strong>🏞️ Minnesota</strong></td>
+                        <td><span class="price">$600-900</span></td>
+                        <td>Sep-Oct (fall colors)</td>
+                        <td>MSP (2-4 hours drive)</td>
+                        <td>Giants Ridge + Brainerd Lakes</td>
+                        <td>6-20 players</td>
+                    </tr>
+                    <tr>
+                        <td><strong>⛰️ Denver, CO</strong></td>
+                        <td><span class="price">$600-900</span></td>
+                        <td>May-Sep</td>
+                        <td>DEN (30-45 min)</td>
+                        <td>Mountain golf + craft beer</td>
+                        <td>4-12 players</td>
+                    </tr>
+                    <tr>
+                        <td><strong>🏛️ Williamsburg, VA</strong></td>
+                        <td><span class="price">$400-600</span></td>
+                        <td>Apr-Jun, Sep-Nov</td>
+                        <td>ORF/RIC (45-60 min)</td>
+                        <td>History + Golden Horseshoe</td>
+                        <td>4-16 players</td>
+                    </tr>
+                    <tr>
+                        <td><strong>🦞 Maine</strong></td>
+                        <td><span class="price">$800-1,200</span></td>
+                        <td>Late May, Sep</td>
+                        <td>PWM (1-2 hours)</td>
+                        <td>Coastal views + lobster</td>
+                        <td>4-8 players</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Key Decision Factors</h3>
+            <div class="grid-2col">
+                <div class="card-gray">
+                    <h4>🎯 Choose Birmingham if:</h4>
+                    <ul>
+                        <li>Budget is primary concern</li>
+                        <li>You want championship-level golf</li>
+                        <li>Group loves BBQ and Southern culture</li>
+                        <li>Flying from Atlanta/Dallas corridor</li>
+                    </ul>
+                </div>
+                <div class="card-gray">
+                    <h4>🌟 Choose Traverse City if:</h4>
+                    <ul>
+                        <li>You want a complete resort experience</li>
+                        <li>Lake Michigan scenery appeals</li>
+                        <li>Group enjoys wine/craft beer</li>
+                        <li>Willing to pay for convenience</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card-yellow">
+                <h3>📊 Booking Timeline &amp; Pro Tips</h3>
+                <p><strong>Book 30-60 days ahead</strong> for optimal rates and tee times</p>
+                <p><strong>Group discounts:</strong> Birmingham (16+ players), Virginia (12+ players), Michigan (resort packages)</p>
+                <p><strong>Best value months:</strong> May and September across all destinations</p>
+                <p><strong>Flight strategy:</strong> Tuesday-Thursday departures save $50-100 per person</p>
+            </div>
+        </div>
+
+        <div id="alabama" class="tab-content">
+            <h2>🏆 Birmingham, Alabama - The Value Champion</h2>
+            
+            <div class="gradient-green">
+                <h3>Why Birmingham Wins for Value</h3>
+                <p>Championship golf at family-friendly prices. Robert Trent Jones Golf Trail provides world-class courses designed by legendary architects at surprisingly reasonable rates. Total trip cost: <strong>$350-450 per person</strong></p>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Course Name</th>
+                        <th>Location</th>
+                        <th>Architect</th>
+                        <th>Current 2025 Rate</th>
+                        <th>Special Features</th>
+                        <th>Distance from Airport</th>
+                        <th>Group Discounts</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="highlight-yellow">
+                        <td><strong>Ross Bridge (Renaissance Resort)</strong></td>
+                        <td>Birmingham, AL</td>
+                        <td>Robert Trent Jones</td>
+                        <td class="price">$65-85 + cart</td>
+                        <td>8,191 yards, 80-foot waterfall, luxury resort</td>
+                        <td>25 minutes</td>
+                        <td>Resort packages available</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Oxmoor Valley (Valley Course)</strong></td>
+                        <td>Birmingham, AL</td>
+                        <td>Robert Trent Jones</td>
+                        <td class="price">$65+ cart</td>
+                        <td>100-foot first hole drop, Biarritz par-3 13th</td>
+                        <td>20 minutes</td>
+                        <td>16+ players get group rates</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Oxmoor Valley (Ridge Course)</strong></td>
+                        <td>Birmingham, AL</td>
+                        <td>Robert Trent Jones</td>
+                        <td class="price">$65+ cart</td>
+                        <td>Big elevation changes, old quarry setting</td>
+                        <td>20 minutes</td>
+                        <td>Trail packages with Valley</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Highland Park Golf Course</strong></td>
+                        <td>Birmingham, AL</td>
+                        <td>Classic design</td>
+                        <td class="price">$55-68</td>
+                        <td>Alabama's oldest (1903), walkable, Five Points South</td>
+                        <td>15 minutes</td>
+                        <td>Local rates for residents</td>
+                    </tr>
+                    <tr>
+                        <td><strong>FarmLinks at Pursell Farms</strong></td>
+                        <td>Sylacauga, AL</td>
+                        <td>Michael Hurdzan/Dana Fry</td>
+                        <td class="price">$75-120</td>
+                        <td>200-foot drop par-3 5th, private farm setting</td>
+                        <td>1 hour south</td>
+                        <td>Multi-room cottages for groups</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Limestone Springs</strong></td>
+                        <td>Oneonta, AL</td>
+                        <td>Jerry Pate</td>
+                        <td class="price">$65-95</td>
+                        <td>30 min N of Birmingham, limestone outcroppings</td>
+                        <td>45 minutes north</td>
+                        <td>Group rates available</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>🏨 Accommodations &amp; Packages</h3>
+            <div class="grid-2col">
+                <div class="card-gray">
+                    <h4>Renaissance Birmingham Ross Bridge</h4>
+                    <p><strong>The premium choice:</strong> On-site at 5th longest course in world</p>
+                    <p><strong>Stay &amp; Play packages:</strong> Room + golf from $200/night</p>
+                    <p><strong>Group perks:</strong> Meeting rooms, team dinners, spa services</p>
+                </div>
+                <div class="card-gray">
+                    <h4>Alternative Group Options</h4>
+                    <p><strong>Hampton Inn Hoover-Galleria:</strong> $89-120/night, group rates for 10+ rooms</p>
+                    <p><strong>Embassy Suites Birmingham-Hoover:</strong> Suites with kitchenettes</p>
+                    <p><strong>VRBO/Airbnb:</strong> Large houses $300-500/night for 8-12 guests</p>
+                </div>
+            </div>
+
+            <div class="card-yellow">
+                <h3>🍖 Dining &amp; Entertainment</h3>
+                <p><strong>🔥 BBQ Scene (Birmingham's specialty):</strong> Saw's Juke Joint, Jim 'N Nick's Bar-B-Q, Full Moon Bar-B-Que</p>
+                <p><strong>🍺 Sports &amp; Bars:</strong> On Tap Sports Café (84 unique taps), Topgolf Birmingham ($40/hour Sundays)</p>
+                <p><strong>🍻 Craft Brewing:</strong> Avondale Brewing Company, Good People Brewing, Cahaba Brewing</p>
+                <p><strong>🎯 Group Activities:</strong> Civil Rights Institute, Vulcan Park, Sloss Furnaces</p>
+            </div>
+
+            <h3>✈️ Transportation Details</h3>
+            <table>
+                <thead>
+                    <tr><th>From</th><th>Flight Cost</th><th>Airlines</th><th>Flight Time</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Atlanta</td><td>$150-200</td><td>Delta, Southwest</td><td>1h 15m</td></tr>
+                    <tr><td>Dallas</td><td>$200-250</td><td>American, Southwest</td><td>1h 45m</td></tr>
+                    <tr><td>Chicago</td><td>$200-250</td><td>United, American</td><td>2h</td></tr>
+                    <tr><td>Charlotte</td><td>$180-220</td><td>American</td><td>1h 30m</td></tr>
+                </tbody>
+            </table>
+            <p><strong>Car Rental:</strong> $50-73/day at Birmingham-Shuttlesworth International (BHM)</p>
+
+            <h3>📅 Best Times to Visit</h3>
+            <p><strong>Prime months:</strong> March-May and September-November (70-80°F)</p>
+            <p><strong>Avoid:</strong> July-August (hot and humid), December-February (course closures possible)</p>
+            <p><strong>Special events:</strong> Alabama golf trail packages available year-round</p>
+        </div>
+
+        <div id="michigan" class="tab-content">
+            <h2>🌟 Traverse City, Michigan - Complete Experience</h2>
+            
+            <div class="gradient-blue">
+                <h3>Why Traverse City is the Complete Package</h3>
+                <p>Grand Traverse Resort delivers the most comprehensive golf resort experience with on-site championship courses, luxury accommodations, and stunning Lake Michigan scenery. Total cost: <strong>$580-850 per person</strong></p>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Course Name</th>
+                        <th>Location</th>
+                        <th>Architect</th>
+                        <th>2025 Confirmed Rates</th>
+                        <th>Ranking/Awards</th>
+                        <th>Key Features</th>
+                        <th>Resort Benefits</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="highlight-blue">
+                        <td><strong>The Bear (Grand Traverse)</strong></td>
+                        <td>Acme, MI</td>
+                        <td>Jack Nicklaus</td>
+                        <td class="price">$75-90 resort / $85-100 outside</td>
+                        <td>Championship course</td>
+                        <td>Signature Nicklaus design, resort's flagship</td>
+                        <td>$15-20 savings for resort guests</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Wolverine (Grand Traverse)</strong></td>
+                        <td>Acme, MI</td>
+                        <td>Gary Player</td>
+                        <td class="price">$75-90 resort / $85-100 outside</td>
+                        <td>Championship course</td>
+                        <td>Strategic design, beautiful views</td>
+                        <td>Package deals with The Bear</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Spruce Run (Grand Traverse)</strong></td>
+                        <td>Acme, MI</td>
+                        <td>William Newcomb</td>
+                        <td class="price">$55-65 resort / $60-70 outside</td>
+                        <td>Resort course</td>
+                        <td>More forgiving, great for groups</td>
+                        <td>Twilight rates up to 50% off</td>
+                    </tr>
+                    <tr class="highlight-yellow">
+                        <td><strong>Arcadia Bluffs (Bluffs)</strong></td>
+                        <td>Arcadia, MI</td>
+                        <td>Warren Henderson</td>
+                        <td class="price">$90-220</td>
+                        <td>America's 100 Greatest Public (2 courses)</td>
+                        <td>50 miles from resort, bluff-top coastal views</td>
+                        <td>Bucket-list experience</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Forest Dunes (Weiskopf)</strong></td>
+                        <td>Roscommon, MI</td>
+                        <td>Tom Weiskopf</td>
+                        <td class="price">$150-200</td>
+                        <td>America's 100 Greatest Public</td>
+                        <td>1.5 hrs from resort, sandy dunes, mature pines</td>
+                        <td>Worth the drive</td>
+                    </tr>
+                    <tr>
+                        <td><strong>The Loop (Red Course)</strong></td>
+                        <td>Roscommon, MI</td>
+                        <td>Tom Doak</td>
+                        <td class="price">$150-200</td>
+                        <td>2016 Best New, reversible course</td>
+                        <td>Unique reversible routing, counterclockwise</td>
+                        <td>Play both directions</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Bay Harbor (Links/Quarry)</strong></td>
+                        <td>Bay Harbor, MI</td>
+                        <td>Arthur Hills</td>
+                        <td class="price">$130-160</td>
+                        <td>America's 100 Greatest Public</td>
+                        <td>27 holes, 45 minutes from resort</td>
+                        <td>Multi-course experience</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>🏨 Grand Traverse Resort &amp; Accommodations</h3>
+            <div class="grid-2col">
+                <div class="card">
+                    <h4>Resort Accommodations</h4>
+                    <p><strong>Hotel Rooms:</strong> $150-250/night with golf packages</p>
+                    <p><strong>Condominiums:</strong> 1-3 bedrooms, kitchens, $200-400/night</p>
+                    <p><strong>Private Homes:</strong> 4-6 bedrooms for large groups</p>
+                    <p><strong>Resort perks:</strong> 3 courses on-site, spa, multiple restaurants</p>
+                </div>
+                <div class="card">
+                    <h4>Alternative Group Options</h4>
+                    <p><strong>VRBO Rentals:</strong> $191-699/night for 8-12+ guests</p>
+                    <p><strong>Vacation homes:</strong> Many with private putting greens</p>
+                    <p><strong>B&amp;Bs in Traverse City:</strong> Boutique options downtown</p>
+                    <p><strong>Best value:</strong> Large rental houses for groups of 8+</p>
+                </div>
+            </div>
+
+            <div class="card-yellow">
+                <h3>✈️ Transportation</h3>
+                <p><strong>Cherry Capital Airport (TVC):</strong> Record 2025 performance with 28.5% passenger increase</p>
+                <p><strong>Direct flights from:</strong> Chicago O'Hare (256 monthly flights), Detroit, Boston, Washington DC</p>
+                <p><strong>Sample costs:</strong> $189-229 round-trip from major cities</p>
+                <p><strong>Drive time to resort:</strong> 15 minutes from airport</p>
+                <p><strong>Car rental:</strong> Available at airport, recommended for course hopping</p>
+            </div>
+
+            <h3>🍽️ Dining &amp; Entertainment</h3>
+            <table>
+                <thead>
+                    <tr><th>Venue</th><th>Type</th><th>Specialty</th><th>Perfect For</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>Aerie Restaurant (Resort)</strong></td><td>Fine Dining</td><td>16th-floor panoramic bay views</td><td>Celebration dinners</td></tr>
+                    <tr><td><strong>7 Monks Taproom (Resort)</strong></td><td>Sports Bar</td><td>46 beers on tap</td><td>Post-golf beers</td></tr>
+                    <tr><td><strong>The Den (Resort)</strong></td><td>Entertainment</td><td>Axe throwing, arcade games</td><td>Group activities</td></tr>
+                    <tr><td><strong>Traverse City Whiskey Co.</strong></td><td>Distillery</td><td>Local whiskey tasting</td><td>Unique experience</td></tr>
+                    <tr><td><strong>Workshop Brewing</strong></td><td>Brewery</td><td>Craft beer scene</td><td>Local flavor</td></tr>
+                </tbody>
+            </table>
+
+            <div class="grid-2col">
+                <div class="card-gray">
+                    <h4>🍷 Wine Country Bonus</h4>
+                    <p><strong>40+ wineries</strong> on Old Mission and Leelanau Peninsulas</p>
+                    <p><strong>Group tours available:</strong> Wine trolley services for golf groups</p>
+                    <p><strong>Unique combination:</strong> Morning golf, afternoon wine tasting</p>
+                </div>
+                <div class="card-gray">
+                    <h4>🗓️ Seasonal Planning</h4>
+                    <p><strong>Prime season:</strong> May-October</p>
+                    <p><strong>Best value:</strong> May and September</p>
+                    <p><strong>Cherry Festival:</strong> Early July (book well ahead)</p>
+                    <p><strong>Fall colors:</strong> Late September-early October</p>
+                </div>
+            </div>
+
+            <div class="grid-2col">
+                <div class="card-gray">
+                    <h4>🎯 Unique Attractions</h4>
+                    <p><strong>Sleeping Bear Dunes:</strong> National Lakeshore, 45 minutes</p>
+                    <p><strong>Mackinac Island:</strong> Day trip, historic charm</p>
+                    <p><strong>Great Lakes Maritime Academy:</strong> Tall ship visits</p>
+                    <p><strong>Downtown Traverse City:</strong> Walkable, boutique shopping</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="minnesota" class="tab-content">
+            <h2>🏞️ Minnesota - Lake Country Golf Experience</h2>
+            
+            <div class="gradient-emerald">
+                <h3>Minnesota's Lake Country Appeal</h3>
+                <p>Brainerd Lakes region offers the highest concentration of championship courses in stunning lake settings. Giants Ridge's The Quarry ranks #1 public course in Minnesota. Total cost: <strong>$600-900 per person</strong></p>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Course Name</th>
+                        <th>Location</th>
+                        <th>Architect</th>
+                        <th>2025 Rates</th>
+                        <th>Ranking/Awards</th>
+                        <th>Special Features</th>
+                        <th>Package Deals</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="highlight-green">
+                        <td><strong>The Quarry at Giants Ridge</strong></td>
+                        <td>Biwabik, MN</td>
+                        <td>Jeffrey Brauer</td>
+                        <td class="price">$130 (cart + range)</td>
+                        <td>#1 in MN, 100 Greatest Public</td>
+                        <td>Links-like, drivable par-4 13th (100-yard green)</td>
+                        <td>36-hole: $205 weekday, $220 weekend + lunch</td>
+                    </tr>
+                    <tr>
+                        <td><strong>The Legend at Giants Ridge</strong></td>
+                        <td>Biwabik, MN</td>
+                        <td>Jeffrey Brauer</td>
+                        <td class="price">$125</td>
+                        <td>Former 100 Greatest Public</td>
+                        <td>Sister course to The Quarry, forest setting</td>
+                        <td>Stay &amp; play packages with lodge</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Wilderness at Fortune Bay</strong></td>
+                        <td>Tower, MN</td>
+                        <td>Jeff Brauer</td>
+                        <td class="price">$125</td>
+                        <td>2005 Best New Upscale Public</td>
+                        <td>Near Giants Ridge, equally affordable</td>
+                        <td>Casino resort packages</td>
+                    </tr>
+                    <tr class="highlight-yellow">
+                        <td><strong>The Classic at Madden's</strong></td>
+                        <td>Brainerd, MN</td>
+                        <td>Scott Hoffmann</td>
+                        <td class="price">$165 Mon-Thu / $180 Fri-Sun</td>
+                        <td>#3 Best New Upscale Public (North America)</td>
+                        <td>4 courses at resort, Gull Lake setting</td>
+                        <td>Minnesota's largest golf resort</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Legacy Courses at Cragun</strong></td>
+                        <td>Brainerd, MN</td>
+                        <td>Robert Trent Jones Jr.</td>
+                        <td class="price">$145-175</td>
+                        <td>Two championship courses</td>
+                        <td>Accessible from Duluth airport</td>
+                        <td>Resort packages available</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>🏨 Accommodations</h3>
+            <div class="grid-2col">
+                <div class="card-green">
+                    <h4>Giants Ridge Lodge</h4>
+                    <p><strong>On-site lodging:</strong> 4-bedroom villas available</p>
+                    <p><strong>Stay &amp; play:</strong> Golf packages with both courses</p>
+                    <p><strong>Year-round:</strong> Ski resort in winter</p>
+                </div>
+                <div class="card-green">
+                    <h4>Madden's on Gull Lake</h4>
+                    <p><strong>Minnesota's largest golf resort:</strong> Multiple accommodation types</p>
+                    <p><strong>Lakefront cabins:</strong> Perfect for groups</p>
+                    <p><strong>Classic resort:</strong> Family-owned since 1946</p>
+                </div>
+            </div>
+
+            <div class="card-yellow">
+                <h3>💰 Minnesota Golf Card Value</h3>
+                <p><strong>Minnesota Golf Card:</strong> Buy-one-get-one-free deals at 130+ courses</p>
+                <p><strong>Cost:</strong> $45 for season-long savings</p>
+                <p><strong>Best for:</strong> Groups planning multiple rounds</p>
+                <p><strong>Participating courses:</strong> Many top-rated public courses included</p>
+            </div>
+
+            <h3>✈️ Transportation</h3>
+            <p><strong>Minneapolis-St. Paul International (MSP):</strong> Major hub with excellent connectivity</p>
+            <p><strong>Drive times:</strong> 2-4 hours to various golf regions</p>
+            <p><strong>Rental car essential:</strong> Best way to course-hop</p>
+            <p><strong>Duluth option:</strong> Smaller airport, closer to Giants Ridge area</p>
+
+            <h3>📅 Best Timing</h3>
+            <div class="grid-2col">
+                <div class="card-gray">
+                    <h4>🍂 Fall Golf (September-October)</h4>
+                    <p><strong>Peak experience:</strong> Spectacular fall colors</p>
+                    <p><strong>Best conditions:</strong> Courses in prime shape</p>
+                    <p><strong>Lower prices:</strong> Post-summer rates</p>
+                    <p><strong>Perfect weather:</strong> Cool, crisp days</p>
+                </div>
+                <div class="card-gray">
+                    <h4>☀️ Summer Season</h4>
+                    <p><strong>Peak rates:</strong> June-August highest prices</p>
+                    <p><strong>Busy period:</strong> Book well in advance</p>
+                    <p><strong>Long days:</strong> Extended daylight for golf</p>
+                    <p><strong>Lake activities:</strong> Swimming, boating available</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="colorado" class="tab-content">
+            <h2>⛰️ Denver, Colorado - Mountain Golf Adventure</h2>
+            
+            <div class="gradient-orange">
+                <h3>Colorado's High-Altitude Appeal</h3>
+                <p>Denver combines mountain golf with an unparalleled craft beer scene and unique high-altitude playing conditions. 300+ sunny days provide excellent golf weather, while elevation adds 10-15% distance to shots. Total cost: <strong>$600-900 per person</strong></p>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Course Name</th>
+                        <th>Location</th>
+                        <th>Architect</th>
+                        <th>2025 Rates</th>
+                        <th>Special Features</th>
+                        <th>Distance from Denver</th>
+                        <th>Booking Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="highlight-yellow">
+                        <td><strong>TPC Colorado</strong></td>
+                        <td>Berthoud, CO</td>
+                        <td>Pete Dye</td>
+                        <td class="price">$89-215</td>
+                        <td>PGA Tour venue, challenging Dye design</td>
+                        <td>45 minutes north</td>
+                        <td>Public play: Mon-Thu after 11am, Fri-Sun after 1pm</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Arrowhead Golf Club</strong></td>
+                        <td>Littleton, CO</td>
+                        <td>Robert Trent Jones Jr.</td>
+                        <td class="price">$125-175</td>
+                        <td>America's most scenic, red rock formations</td>
+                        <td>30 minutes southwest</td>
+                        <td>Book 90 days in advance</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Bear Dance Golf Club</strong></td>
+                        <td>Larkspur, CO</td>
+                        <td>Jim Engh</td>
+                        <td class="price">$89-215</td>
+                        <td>40 miles S of Denver, steep upland topography</td>
+                        <td>40 minutes south</td>
+                        <td>90-day advance booking recommended</td>
+                    </tr>
+                    <tr>
+                        <td><strong>CommonGround Golf Course</strong></td>
+                        <td>Aurora, CO</td>
+                        <td>Tom Doak</td>
+                        <td class="price">$65-95</td>
+                        <td>Former Air Force base, huge fairways</td>
+                        <td>20 minutes east</td>
+                        <td>Great value option</td>
+                    </tr>
+                    <tr>
+                        <td><strong>The Ridge at Castle Pines North</strong></td>
+                        <td>Castle Rock, CO</td>
+                        <td>Jack Nicklaus</td>
+                        <td class="price">$110-160</td>
+                        <td>High-country environment, public access</td>
+                        <td>30 minutes south</td>
+                        <td>Member for a day programs</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>🍺 Denver's Legendary Craft Beer Scene</h3>
+            <div class="grid-2col">
+                <div class="card-yellow">
+                    <h4>🍻 Must-Visit Breweries</h4>
+                    <p><strong>BrewDog Denver:</strong> 30 taps, 500-person capacity</p>
+                    <p><strong>Great Divide Brewing:</strong> Denver institution since 1994</p>
+                    <p><strong>Wynkoop Brewing:</strong> Colorado's first brewpub</p>
+                    <p><strong>Denver Beer Co:</strong> Local favorite with food trucks</p>
+                </div>
+                <div class="card-yellow">
+                    <h4>🎯 Golf-Themed Entertainment</h4>
+                    <p><strong>Topgolf Denver:</strong> Climate-controlled year-round</p>
+                    <p><strong>Wonderland Brewing:</strong> 18-hole mini golf + arcade</p>
+                    <p><strong>Sports Column:</strong> 70+ TVs, classic sports bar</p>
+                    <p><strong>Punch Bowl Social:</strong> Bowling, karaoke, dining</p>
+                </div>
+            </div>
+
+            <div class="card-yellow">
+                <h3>🏨 Accommodations</h3>
+                <p><strong>Downtown Denver:</strong> Walkable nightlife, 20-40 minutes to most courses</p>
+                <p><strong>Group options:</strong> Hotel blocks at Marriott, Hilton, or large Airbnb rentals</p>
+                <p><strong>South Metro (Castle Rock area):</strong> Closer to southern courses</p>
+                <p><strong>Car rental essential:</strong> $58-82/day at Denver International (DEN)</p>
+            </div>
+
+            <div class="card">
+                <h3>⛰️ High Altitude Golf Tips</h3>
+                <p><strong>Ball flight:</strong> 10-15% more distance due to thin air</p>
+                <p><strong>Club selection:</strong> Take 1-2 clubs less than normal</p>
+                <p><strong>Hydration crucial:</strong> Drink more water than usual</p>
+                <p><strong>Sun protection:</strong> UV rays stronger at altitude</p>
+            </div>
+
+            <h3>📅 Year-Round Golf</h3>
+            <p><strong>Prime season:</strong> May-September for best conditions</p>
+            <p><strong>Winter golf:</strong> Possible on many days (300+ sunny days annually)</p>
+            <p><strong>Best value:</strong> May and September shoulder seasons</p>
+            <p><strong>Weather advantage:</strong> Low humidity, comfortable summers</p>
+        </div>
+
+        <div id="virginia" class="tab-content">
+            <h2>🏛️ Williamsburg, Virginia - Historic Golf Charm</h2>
+            
+            <div class="gradient-red">
+                <h3>Colonial Charm Meets Championship Golf</h3>
+                <p>Williamsburg uniquely combines world-class golf with America's largest living history museum. Intimate, walkable entertainment and colonial charm create a distinctive guys' trip. Total cost: <strong>$400-600 per person</strong></p>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Course Name</th>
+                        <th>Location</th>
+                        <th>Architect</th>
+                        <th>2025 Rates</th>
+                        <th>Ranking/Awards</th>
+                        <th>Historical Notes</th>
+                        <th>Group Benefits</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="highlight-red">
+                        <td><strong>Golden Horseshoe (Gold Course)</strong></td>
+                        <td>Williamsburg, VA</td>
+                        <td>Robert Trent Jones/Rees Jones</td>
+                        <td class="price">$60-85 resort guests only</td>
+                        <td>75th on 100 Greatest Public</td>
+                        <td>Island green pre-dating Pete Dye designs</td>
+                        <td>Colonial Williamsburg packages</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Kingsmill Resort (River Course)</strong></td>
+                        <td>Williamsburg, VA</td>
+                        <td>Pete Dye</td>
+                        <td class="price">$60</td>
+                        <td>Former PGA/LPGA Tour site</td>
+                        <td>James River banks, dozens of tour events</td>
+                        <td>Stay &amp; play packages available</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Kingsmill (Plantation Course)</strong></td>
+                        <td>Williamsburg, VA</td>
+                        <td>Arnold Palmer</td>
+                        <td class="price">$50</td>
+                        <td>Palmer signature design</td>
+                        <td>Resort's second championship course</td>
+                        <td>Multi-course packages</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Royal New Kent</strong></td>
+                        <td>Providence Forge, VA</td>
+                        <td>Mike Strantz</td>
+                        <td class="price">$75-125</td>
+                        <td>1997 Best New Upscale Public</td>
+                        <td>Irish-style dunes, 17 miles from Williamsburg</td>
+                        <td>Group rates for 12+ players</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Stonehouse Golf Club</strong></td>
+                        <td>Toano, VA</td>
+                        <td>Mike Strantz</td>
+                        <td class="price">$70-120</td>
+                        <td>1996 Best New Upscale Public</td>
+                        <td>Between Royal New Kent and Williamsburg</td>
+                        <td>Strantz package with Royal New Kent</td>
+                    </tr>
+                    <tr>
+                        <td><strong>The Club at Viniterra</strong></td>
+                        <td>New Kent, VA</td>
+                        <td>Rees Jones</td>
+                        <td class="price">$85-140</td>
+                        <td>Premium daily fee</td>
+                        <td>Next to winery, 70-foot elevation changes</td>
+                        <td>Wine &amp; golf packages</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>🏨 Historic Accommodations</h3>
+            <div class="grid-2col">
+                <div class="card-red">
+                    <h4>Colonial Williamsburg Resorts</h4>
+                    <p><strong>Williamsburg Inn:</strong> Luxury colonial-style accommodations</p>
+                    <p><strong>Williamsburg Lodge:</strong> Conference-friendly for groups</p>
+                    <p><strong>Historic Taverns:</strong> Unique colonial lodging experience</p>
+                </div>
+                <div class="card-red">
+                    <h4>Kingsmill Resort</h4>
+                    <p><strong>On-site golf:</strong> 3 championship courses</p>
+                    <p><strong>James River setting:</strong> Waterfront luxury</p>
+                    <p><strong>Stay &amp; play packages:</strong> Golf + accommodations</p>
+                </div>
+            </div>
+
+            <div class="card-yellow">
+                <h3>🍺 Colonial Nightlife &amp; Dining</h3>
+                <p><strong>🍻 Historic taverns:</strong> Chowning's Tavern, King's Arms Tavern (18th-century atmosphere)</p>
+                <p><strong>🍖 Modern dining:</strong> Food &amp; Wine Festival venues, farm-to-table restaurants</p>
+                <p><strong>🎯 Group activities:</strong> Ghost tours, blacksmith demonstrations, colonial games</p>
+                <p><strong>🏛️ Historic attractions:</strong> Governor's Palace, Capitol Building, museums</p>
+            </div>
+
+            <h3>✈️ Transportation</h3>
+            <p><strong>Norfolk International (ORF):</strong> 45 minutes, more flight options</p>
+            <p><strong>Richmond International (RIC):</strong> 60 minutes, alternative option</p>
+            <p><strong>Car rental recommended:</strong> Best access to all courses</p>
+            <p><strong>Amtrak option:</strong> Direct service from major East Coast cities</p>
+
+            <h3>📅 Perfect Timing</h3>
+            <div class="grid-2col">
+                <div class="card-gray">
+                    <h4>🌸 Spring (April-June)</h4>
+                    <p><strong>Weather:</strong> 60-80°F, perfect for golf</p>
+                    <p><strong>Blooms:</strong> Historic area gardens in bloom</p>
+                    <p><strong>Crowds:</strong> Moderate, good value</p>
+                </div>
+                <div class="card-gray">
+                    <h4>🍂 Fall (September-November)</h4>
+                    <p><strong>Weather:</strong> Ideal golf conditions</p>
+                    <p><strong>Colors:</strong> Beautiful fall foliage</p>
+                    <p><strong>Events:</strong> Colonial harvest celebrations</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>🎯 Unique Williamsburg Advantages</h3>
+                <p><strong>🏛️ Non-golfers welcome:</strong> Extensive historical attractions for varied interests</p>
+                <p><strong>🚶 Walkable entertainment:</strong> Historic area easily explored on foot</p>
+                <p><strong>📚 Educational value:</strong> American history immersion</p>
+                <p><strong>👨‍👩‍👧‍👦 Family-friendly option:</strong> Great if some wives/kids want to join</p>
+            </div>
+        </div>
+
+        <div id="maine" class="tab-content">
+            <h2>🦞 Maine - Coastal Golf Paradise</h2>
+            
+            <div class="gradient-navy">
+                <h3>Premium Coastal Golf Experience</h3>
+                <p>Maine delivers premium coastal golf with spectacular ocean views and authentic New England charm. Boothbay Harbor Country Club ranks #1 in Maine, while the lobster dining experience is unmatched. Total cost: <strong>$800-1,200 per person</strong></p>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Course Name</th>
+                        <th>Location</th>
+                        <th>Architect</th>
+                        <th>2025 Rates</th>
+                        <th>Ranking/Awards</th>
+                        <th>Coastal Features</th>
+                        <th>Access Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="highlight-blue">
+                        <td><strong>Boothbay Harbor Country Club</strong></td>
+                        <td>Boothbay, ME</td>
+                        <td>Wayne Stiles</td>
+                        <td class="price">$125/day</td>
+                        <td>#1 in Maine</td>
+                        <td>Spectacular harbor views, island greens</td>
+                        <td>Private with stay-and-play villa options</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Cape Arundel Golf Club</strong></td>
+                        <td>Kennebunkport, ME</td>
+                        <td>Walter Travis</td>
+                        <td class="price">$140-180</td>
+                        <td>Presidential history</td>
+                        <td>4 U.S. presidents played here, coastal holes</td>
+                        <td>Semi-private, visitor access</td>
+                    </tr>
+                    <tr class="highlight-yellow">
+                        <td><strong>Samoset Resort</strong></td>
+                        <td>Rockport, ME</td>
+                        <td>Robert Trent Jones</td>
+                        <td class="price">$120</td>
+                        <td>"Pebble Beach of the East"</td>
+                        <td>Oceanfront resort, lighthouse views</td>
+                        <td>Resort guests preferred</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Belgrade Lakes Golf Club</strong></td>
+                        <td>Belgrade Lakes, ME</td>
+                        <td>Clive Clark</td>
+                        <td class="price">$85-110</td>
+                        <td>Former 100 Greatest Public</td>
+                        <td>Central Maine, scenic practice putting green</td>
+                        <td>Public access</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Kebo Valley Club</strong></td>
+                        <td>Bar Harbor, ME</td>
+                        <td>Herbert Leeds</td>
+                        <td class="price">$125-150</td>
+                        <td>Est. 1888</td>
+                        <td>Near Acadia National Park, "Taft hole"</td>
+                        <td>Historic club, visitor rounds</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>🦞 Authentic Maine Dining</h3>
+            <div class="grid-2col">
+                <div class="card-blue">
+                    <h4>🦞 Lobster Experience</h4>
+                    <p><strong>Lobster shacks:</strong> Authentic Maine experience</p>
+                    <p><strong>Lobster rolls:</strong> Maine vs. Connecticut style debate</p>
+                    <p><strong>Lobster bakes:</strong> Group dining on the coast</p>
+                    <p><strong>Fresh seafood:</strong> Scallops, clams, Maine crab</p>
+                </div>
+                <div class="card-blue">
+                    <h4>🍺 Maine Breweries</h4>
+                    <p><strong>Allagash Brewing:</strong> Belgian-style ales</p>
+                    <p><strong>Shipyard Brewing:</strong> Maine institution</p>
+                    <p><strong>Bissell Brothers:</strong> Portland craft scene</p>
+                    <p><strong>Maine Beer Company:</strong> Award-winning IPAs</p>
+                </div>
+            </div>
+
+            <div class="card-yellow">
+                <h3>🏨 Coastal Accommodations</h3>
+                <p><strong>Samoset Resort:</strong> Oceanfront luxury with on-site golf</p>
+                <p><strong>Kennebunkport rentals:</strong> $775-1,031/night for group houses</p>
+                <p><strong>Bar Harbor area:</strong> Near Acadia National Park</p>
+                <p><strong>Portland base:</strong> Urban dining scene, day trips to courses</p>
+            </div>
+
+            <h3>✈️ Transportation</h3>
+            <p><strong>Portland International Jetport (PWM):</strong> Most flight options</p>
+            <p><strong>Bar Harbor Airport:</strong> Smaller, closer to northern courses</p>
+            <p><strong>Drive times:</strong> 1-2 hours between major course clusters</p>
+            <p><strong>Rental car essential:</strong> Best way to explore coastal Maine</p>
+
+            <h3>🌊 Beyond Golf</h3>
+            <div class="grid-2col">
+                <div class="card-gray">
+                    <h4>🏞️ Natural Attractions</h4>
+                    <p><strong>Acadia National Park:</strong> Hiking, scenic drives</p>
+                    <p><strong>Lighthouse tours:</strong> Iconic Maine lighthouses</p>
+                    <p><strong>Whale watching:</strong> Bar Harbor excursions</p>
+                    <p><strong>Ocean activities:</strong> Sailing, fishing charters</p>
+                </div>
+                <div class="card-gray">
+                    <h4>🎯 Unique Experiences</h4>
+                    <p><strong>Lobster boat tours:</strong> See how lobsters are caught</p>
+                    <p><strong>Coastal hiking:</strong> Rugged Maine coastline</p>
+                    <p><strong>Historic settlements:</strong> Colonial and maritime history</p>
+                    <p><strong>Antique shopping:</strong> Coastal towns and villages</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>📅 Optimal Timing</h3>
+                <p><strong>Best value:</strong> Late May and September (shoulder seasons)</p>
+                <p><strong>Peak season:</strong> July-August (highest prices, best weather)</p>
+                <p><strong>Fall option:</strong> September-early October (fewer crowds, comfortable)</p>
+                <p><strong>Weather note:</strong> Maine summers are perfect for golf, but book early</p>
+            </div>
+
+            <div class="card-red">
+                <h3>💰 Cost Considerations</h3>
+                <p><strong>Premium destination:</strong> Highest cost among the six options</p>
+                <p><strong>Justified by:</strong> Unique coastal experience, premium dining, scenic beauty</p>
+                <p><strong>Best for:</strong> Groups willing to pay for once-in-a-lifetime coastal golf</p>
+                <p><strong>Value tip:</strong> Focus on 2-3 courses rather than trying to play everything</p>
+            </div>
+        </div>
+
+        <div style="margin-top: 30px; text-align: center;">
+            <button type="button" class="export-btn" onclick="exportToCSV()">📊 Export to CSV</button>
+            <button type="button" class="export-btn" onclick="window.print()">🖨️ Print/PDF</button>
+            <button type="button" class="export-btn" onclick="copyToClipboard()">📋 Copy Data</button>
+            <button type="button" class="export-btn" onclick="generateItinerary()">📅 Create Itinerary</button>
+        </div>
+
+        <div class="final-framework">
+            <h4>🎯 Final Decision Framework</h4>
+            <div class="framework-grid">
+                <div>
+                    <h5>💰 Budget First ($350-600)</h5>
+                    <p>1. Birmingham, AL 🏆<br />
+                    2. Williamsburg, VA 🏛️<br />
+                    3. Traverse City, MI 🌟</p>
+                </div>
+                <div>
+                    <h5>🌟 Experience First ($580-900)</h5>
+                    <p>1. Traverse City, MI 🌟<br />
+                    2. Minnesota 🏞️<br />
+                    3. Denver, CO ⛰️</p>
+                </div>
+                <div>
+                    <h5>🏌️ Golf Quality First</h5>
+                    <p>1. Traverse City, MI 🌟<br />
+                    2. Birmingham, AL 🏆<br />
+                    3. Maine 🦞</p>
+                </div>
+            </div>
+            <div class="next-steps">
+                <p><strong>📞 Next Steps:</strong> Book 30-60 days ahead • Check group discounts • Consider shoulder seasons (May/September) • Verify current rates directly with courses</p>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        function showTab(tabName) {
+            // Hide all tab contents
+            var contents = document.querySelectorAll('.tab-content');
+            for (var i = 0; i < contents.length; i++) {
+                contents[i].classList.remove('active');
+            }
+            
+            // Remove active class from all tabs
+            var tabs = document.querySelectorAll('.tab');
+            for (var i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove('active');
+            }
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+
+        function exportToCSV() {
+            // Create CSV content from all the data
+            var csvContent = "Destination,Course,Location,Rate,Features,Best For\\n";
+            
+            // Add data from each destination
+            csvContent += "Birmingham AL,Ross Bridge,Birmingham AL,$65-85,RTJ Trail + Resort,Value\\n";
+            csvContent += "Traverse City MI,Grand Traverse Resort,Acme MI,$75-90,Lake Michigan Views,Complete Experience\\n";
+            csvContent += "Minnesota,Giants Ridge Quarry,Biwabik MN,$130,#1 in Minnesota,Lake Country\\n";
+            csvContent += "Denver CO,TPC Colorado,Berthoud CO,$89-215,Mountain Views,Scenic Diversity\\n";
+            csvContent += "Williamsburg VA,Golden Horseshoe,Williamsburg VA,$60-85,Colonial History,History Buffs\\n";
+            csvContent += "Maine,Boothbay Harbor CC,Boothbay ME,$125,#1 in Maine,Coastal Premium\\n";
+            
+            // Create download
+            var blob = new Blob([csvContent], { type: 'text/csv' });
+            var url = window.URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'golf-trip-destinations.csv';
+            a.click();
+            window.URL.revokeObjectURL(url);
+            
+            alert('📊 Golf trip data exported to CSV!');
+        }
+
+        function copyToClipboard() {
+            // Create summary text
+            var summaryText = 
+"🏌️ GUYS GOLF TRIP - TOP 6 DESTINATIONS\\n\\n" +
+"🏆 BEST VALUE: Birmingham, Alabama ($350-450)\\n" +
+"• Ross Bridge Golf Course: $65-85\\n" +
+"• Robert Trent Jones Golf Trail\\n" +
+"• Renaissance Resort packages\\n" +
+"• World-class BBQ scene\\n\\n" +
+"🌟 BEST OVERALL: Traverse City, Michigan ($580-850)\\n" +
+"• Grand Traverse Resort (3 courses on-site)\\n" +
+"• Arcadia Bluffs: $90-220\\n" +
+"• Lake Michigan scenery\\n" +
+"• 40+ wineries nearby\\n\\n" +
+"🏞️ BEST LAKES: Minnesota ($600-900)\\n" +
+"• Giants Ridge Quarry: $130 (#1 in MN)\\n" +
+"• Brainerd Lakes region\\n" +
+"• Fall colors spectacular\\n" +
+"• Minnesota Golf Card discounts\\n\\n" +
+"⛰️ BEST VIEWS: Denver, Colorado ($600-900)\\n" +
+"• TPC Colorado: $89-215\\n" +
+"• High altitude golf (10-15% more distance)\\n" +
+"• 300+ sunny days\\n" +
+"• Incredible craft beer scene\\n\\n" +
+"🏛️ BEST HISTORY: Williamsburg, Virginia ($400-600)\\n" +
+"• Golden Horseshoe Golf Club\\n" +
+"• Colonial Williamsburg attractions\\n" +
+"• Kingsmill Resort packages\\n" +
+"• Perfect for mixed groups\\n\\n" +
+"🦞 BEST COASTAL: Maine ($800-1,200)\\n" +
+"• Boothbay Harbor CC: $125 (#1 in Maine)\\n" +
+"• Authentic lobster dining\\n" +
+"• Coastal premium experience\\n" +
+"• Acadia National Park nearby\\n\\n" +
+"📞 BOOK 30-60 DAYS AHEAD FOR BEST RATES!";
+            
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(summaryText).then(function() {
+                    alert('📋 Golf trip summary copied to clipboard!');
+                });
+            } else {
+                alert('📋 Copy to clipboard not supported in this browser');
+            }
+        }
+
+        function generateItinerary() {
+            var destination = prompt("Which destination interests you most?\\n1. Birmingham, AL\\n2. Traverse City, MI\\n3. Minnesota\\n4. Denver, CO\\n5. Williamsburg, VA\\n6. Maine\\n\\nEnter 1-6:");
+            
+            var itinerary = "";
+            
+            switch(destination) {
+                case "1":
+                    itinerary = 
+"🏆 BIRMINGHAM, ALABAMA - 4-DAY ITINERARY\\n\\n" +
+"THURSDAY:\\n" +
+"• Fly into Birmingham (BHM)\\n" +
+"• Check into Renaissance Ross Bridge Resort\\n" +
+"• Evening: Saw's Juke Joint for BBQ + On Tap Sports Café\\n\\n" +
+"FRIDAY:\\n" +
+"• Morning: Ross Bridge Golf Course ($65-85)\\n" +
+"• Afternoon: Explore downtown Birmingham\\n" +
+"• Evening: Good People Brewing + group dinner\\n\\n" +
+"SATURDAY:\\n" +
+"• Morning: Oxmoor Valley (Valley Course) ($65+)\\n" +
+"• Afternoon: Highland Park Golf Course ($55-68)\\n" +
+"• Evening: Avondale Brewing + BBQ crawl\\n\\n" +
+"SUNDAY:\\n" +
+"• Morning: FarmLinks at Pursell Farms ($75-120)\\n" +
+"• Afternoon: Depart\\n\\n" +
+"TOTAL ESTIMATED COST: $350-450 per person";
+                    break;
+                case "2":
+                    itinerary = 
+"🌟 TRAVERSE CITY, MICHIGAN - 4-DAY ITINERARY\\n\\n" +
+"THURSDAY:\\n" +
+"• Fly into Cherry Capital Airport (TVC)\\n" +
+"• Check into Grand Traverse Resort\\n" +
+"• Evening: 7 Monks Taproom at resort\\n\\n" +
+"FRIDAY:\\n" +
+"• Morning: The Bear Course ($75-90)\\n" +
+"• Afternoon: Wolverine Course ($75-90)\\n" +
+"• Evening: Aerie Restaurant (16th floor views)\\n\\n" +
+"SATURDAY:\\n" +
+"• Morning: Arcadia Bluffs ($90-220) - bucket list!\\n" +
+"• Afternoon: Wine tasting on Old Mission Peninsula\\n" +
+"• Evening: Downtown Traverse City\\n\\n" +
+"SUNDAY:\\n" +
+"• Morning: Forest Dunes + The Loop ($150-200)\\n" +
+"• Afternoon: Depart\\n\\n" +
+"TOTAL ESTIMATED COST: $580-850 per person";
+                    break;
+                default:
+                    itinerary = "Select a destination number (1-6) to generate a detailed itinerary!";
+            }
+            
+            alert(itinerary);
+        }
+    </script>
+</body>
+</html>
